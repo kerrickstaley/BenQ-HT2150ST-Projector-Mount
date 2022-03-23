@@ -1,20 +1,14 @@
-include <MCAD/units.scad>
-use <MCAD/utilities.scad>
-use <MCAD/polyholes.scad>
+include <MCAD/units/metric.scad>
+use <MCAD/general/utilities.scad>
+use <MCAD/shapes/polyhole.scad>
 use <fillet.scad>
 use <arm.scad>
 
-
+function mm (x) = length_mm (x);
 function centroid (a, b, c) = [
     (a[0] + b[0] + c[0]) / 3,
     (a[1] + b[1] + c[1]) / 3,
     (a[2] + b[2] + c[2]) / 3
-];
-
-function centroid3of2 (a, b, c) = [
-    (a[0] + b[0] + c[0]) / 3,
-    (a[1] + b[1] + c[1]) / 3,
-    0
 ];
 
 function get_fragments_from_r (r) = (
@@ -23,9 +17,9 @@ function get_fragments_from_r (r) = (
 );
 
 benq_w1070_screwholes = [
-    [0, 115],
-    [160 - 137, 0],
-    [160, 80]
+    [0, mm (115)],
+    [mm (160 - 137), 0],
+    [mm (160), mm (80)]
 ];
 
 epson_eb101760w_screwholes = [
@@ -46,34 +40,28 @@ epson_eb_915w_screwholes = [
     [131.43, 85.88]
 ];
 
-benq_ht2150st_screwholes = [
-    [0, 35, 0],
-    [160, 0, 0],
-    [160 - 47, 132.9, 0]
-];
+screwholes = epson_eb_915w_screwholes;
 
-screwholes = benq_ht2150st_screwholes;
-
-center = centroid3of2 (screwholes[0], screwholes[1], screwholes[2]);
+center = centroid (screwholes[0], screwholes[1], screwholes[2]);
 
 $fs = 0.5;
 $fa = 1;
 
-clearance = 0.3;
+clearance = mm (0.3);
 screw_d = 4;
 shaft_d = 5;
 wall_thickness = 5;
 outer_d = screw_d + wall_thickness * 2 + clearance;
-plate_thickness = 5;
-stiffener_thickness = 10;
-stiffener_width = 5;
+plate_thickness = mm (5);
+stiffener_thickness = mm (10);
+stiffener_width = mm (5);
 
-arm_distance = 30;
-arm_thickness = 5;
-arm_width = 30;
-arm_height = 40;
+arm_distance = mm (30);
+arm_thickness = mm (5);
+arm_width = mm (30);
+arm_height = mm (40);
 
-fillet_r = 5;
+fillet_r = mm (5);
 fillet_steps = get_fragments_from_r (fillet_r) * 0.25; // 90° joint
 
 module place_screws () {
@@ -150,8 +138,8 @@ module edge_stiffener (i)
     dy = screwhole2[1] - screwhole1[1];
     dx = screwhole2[0] - screwhole1[0];
 
-    length = length2 ([dx, dy]);
-    angle = 90 - angleBetweenTwoPoints (screwhole1, screwhole2);
+    length = distance2D (screwhole1, screwhole2);
+    angle = 90 - angle_betweentTwoPoints2D (screwhole1, screwhole2);
 
     translate (conv2D_polar2cartesian ([outer_d / 2, angle - 90]))
     translate (screwhole1)
