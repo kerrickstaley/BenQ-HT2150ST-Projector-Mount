@@ -47,9 +47,9 @@ epson_eb_915w_screwholes = [
 ];
 
 benq_ht2150st_screwholes = [
-    [0, 35],
-    [160, 0],
-    [160 - 47, 132.9]
+    [0, 35, 0],
+    [160, 0, 0],
+    [160 - 47, 132.9, 0]
 ];
 
 screwholes = benq_ht2150st_screwholes;
@@ -151,7 +151,7 @@ module edge_stiffener (i)
     dx = screwhole2[0] - screwhole1[0];
 
     length = length2 ([dx, dy]);
-    angle = 90 - angle_betweentTwoPoints2D (screwhole1, screwhole2);
+    angle = 90 - angleBetweenTwoPoints (screwhole1, screwhole2);
 
     translate (conv2D_polar2cartesian ([outer_d / 2, angle - 90]))
     translate (screwhole1)
