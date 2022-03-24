@@ -40,7 +40,13 @@ epson_eb_915w_screwholes = [
     [131.43, 85.88]
 ];
 
-screwholes = epson_eb_915w_screwholes;
+benq_ht2150st_screwholes = [
+    [0, 35],
+    [160, 0],
+    [160 - 47, 132.9],
+];
+
+screwholes = benq_ht2150st_screwholes;
 
 center = centroid (screwholes[0], screwholes[1], screwholes[2]);
 
