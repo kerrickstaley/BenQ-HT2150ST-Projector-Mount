@@ -227,5 +227,12 @@ difference () {
         translate([82.9, 35 + 70.7, 0])
         translate([-40, 0, -20])
         cube([40,40,40]);
+
+        translate([116.8, 35 - 32.2, -20]) {
+            cylinder(r=8.7, h=40);
+            translate([-40, -40, 0])
+            translate([0, 8.7, 0])
+            cube([40, 40, 40]);
+        }
     }
 }
