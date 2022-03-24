@@ -222,5 +222,10 @@ difference () {
         }
     }
 
-    screwpolyholes ();
+    {
+        screwpolyholes ();
+        translate([82.9, 35 + 70.7, 0])
+        translate([-40, 0, -20])
+        cube([40,40,40]);
+    }
 }
