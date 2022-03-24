@@ -89,6 +89,7 @@ module arm_hub ()
 module place_arm (i)
 {
     translate (center)
+    rotate([0, 0, 90])
     translate ([0, i * (arm_distance + arm_thickness) / 2, 0])
     children ();
 }
