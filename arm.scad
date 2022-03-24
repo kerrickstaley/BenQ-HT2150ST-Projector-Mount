@@ -1,5 +1,5 @@
-include <MCAD/units.scad>
-use <MCAD/polyholes.scad>
+include <MCAD/units/metric.scad>
+use <MCAD/shapes/polyhole.scad>
 
 module arm (height, width, thickness, shaft_d)
 {
