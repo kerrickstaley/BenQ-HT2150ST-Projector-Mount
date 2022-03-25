@@ -4,7 +4,7 @@ use <MCAD/shapes/polyhole.scad>
 use <fillet.scad>
 use <arm.scad>
 
-module fillet (r=1.0,steps=3,include=true) { children (); }
+// module fillet (r=1.0,steps=3,include=true) { children (); }
 
 function mm (x) = length_mm (x);
 function centroid (a, b, c) = [
@@ -156,6 +156,17 @@ module edge_stiffener (i)
     cube ([length, stiffener_width, stiffener_thickness]);
 }
 
+module rectangle_intrusion_stiffener () {
+    // bottom edge of rectangle intrusion
+    translate([82.9, 35 + 70.7, 0])
+    translate([-12, -stiffener_width, 0])
+    cube([12 + stiffener_width, stiffener_width, stiffener_thickness]);
+    
+    // right edge of rectangle intrusion
+    translate([82.9, 35 + 70.7, 0])
+    cube([stiffener_width, 9, stiffener_thickness]);
+}
+
 // basic shape
 difference () {
     union () {
@@ -174,15 +185,8 @@ difference () {
         place_arm (i)
         single_arm ();
         
-        // added intrusion stiffeners
-        // bottom edge of rectangle intrusion
-        translate([82.9, 35 + 70.7, 0])
-        translate([-12, -stiffener_width, 0])
-        cube([12 + stiffener_width, stiffener_width, stiffener_thickness]);
-        
-        // right edge of rectangle intrusion
-        translate([82.9, 35 + 70.7, 0])
-        cube([stiffener_width, 9, stiffener_thickness]);
+        // intrusion stiffeners
+        rectangle_intrusion_stiffener ();
 
         // arm fillets
         fillet (r=fillet_r, steps=fillet_steps, include=false) {
@@ -227,6 +231,11 @@ difference () {
                 basic_plate ();
                 screwhub (i);
                 edge_stiffener ((i + len (screwholes) - 1) % len (screwholes));
+            }
+            
+            fillet (r=fillet_r, steps=fillet_steps, include=false) {
+                basic_plate ();
+                rectangle_intrusion_stiffener ();
             }
         }
     }
