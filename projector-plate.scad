@@ -173,6 +173,15 @@ module oval_intrusion_stiffener () {
         translate([0, 8.7, 0])
         translate([-42.5, 0, 0])
         cube([42.5, stiffener_width, stiffener_thickness]);
+        
+        // right edge
+        // I think this is a pretty lazy/sloppy way to do this,
+        // but it works
+        difference () {
+            cylinder(r=8.7 + stiffener_width, h=stiffener_thickness);
+            translate([-1, -20, -1])
+            cube([20, 20, stiffener_thickness + 2]);
+        }
     }
 }
 
