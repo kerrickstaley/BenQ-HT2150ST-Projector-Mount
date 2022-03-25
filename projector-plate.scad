@@ -4,6 +4,8 @@ use <MCAD/shapes/polyhole.scad>
 use <fillet.scad>
 use <arm.scad>
 
+module fillet (r=1.0,steps=3,include=true) { children (); }
+
 function mm (x) = length_mm (x);
 function centroid (a, b, c) = [
     (a[0] + b[0] + c[0]) / 3,
@@ -69,10 +71,6 @@ arm_height = mm (40);
 
 fillet_r = mm (5);
 fillet_steps = get_fragments_from_r (fillet_r) * 0.25; // 90° joint
-
-module fillet (r=1.0,steps=3,include=true) {
-    children ();
-}
 
 module place_screws () {
     for (point = screwholes)
@@ -175,6 +173,16 @@ difference () {
         for (i=[1, -1])
         place_arm (i)
         single_arm ();
+        
+        // added intrusion stiffeners
+        // bottom edge of rectangle intrusion
+        translate([82.9, 35 + 70.7, 0])
+        translate([-12, -stiffener_width, 0])
+        cube([12 + stiffener_width, stiffener_width, stiffener_thickness]);
+        
+        // right edge of rectangle intrusion
+        translate([82.9, 35 + 70.7, 0])
+        cube([stiffener_width, 9, stiffener_thickness]);
 
         // arm fillets
         fillet (r=fillet_r, steps=fillet_steps, include=false) {
@@ -225,6 +233,7 @@ difference () {
 
     {
         screwpolyholes ();
+        
         translate([82.9, 35 + 70.7, 0])
         translate([-40, 0, -20])
         cube([40,40,40]);
