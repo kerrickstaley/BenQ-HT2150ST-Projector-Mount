@@ -249,9 +249,9 @@ difference () {
 
         translate([116.8, 35 - 32.2, -20]) {
             cylinder(r=8.7, h=40);
-            translate([-40, -40, 0])
+            translate([-50, -40, 0])
             translate([0, 8.7, 0])
-            cube([40, 40, 40]);
+            cube([50, 40, 40]);
         }
     }
 }
