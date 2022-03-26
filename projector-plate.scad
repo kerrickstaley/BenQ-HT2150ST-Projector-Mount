@@ -3,6 +3,7 @@ use <MCAD/general/utilities.scad>
 use <MCAD/shapes/polyhole.scad>
 use <fillet.scad>
 use <arm.scad>
+use <sector.scad>
 
 // module fillet (r=1.0,steps=3,include=true) { children (); }
 
@@ -175,12 +176,10 @@ module oval_intrusion_stiffener () {
         cube([42.5, stiffener_width, stiffener_thickness]);
         
         // right edge
-        // I think this is a pretty lazy/sloppy way to do this,
-        // but it works
         difference () {
-            cylinder(r=8.7 + stiffener_width, h=stiffener_thickness);
-            translate([-1, -20, -1])
-            cube([20, 20, stiffener_thickness + 2]);
+            sector(d=2*(8.7 + stiffener_width), h=stiffener_thickness, a1=-10, a2=90);
+            translate([0, 0, -1])
+            cylinder(r=8.7, h=stiffener_thickness + 2);
         }
     }
 }
