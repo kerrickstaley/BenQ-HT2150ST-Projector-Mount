@@ -71,7 +71,7 @@ arm_width = mm (30);
 arm_height = mm (40);
 
 fillet_r = mm (5);
-fillet_steps = get_fragments_from_r (fillet_r) * 0.25; // 90° joint
+fillet_steps = 8;
 
 module place_screws () {
     for (point = screwholes)
