@@ -5,7 +5,7 @@ use <fillet.scad>
 use <arm.scad>
 use <sector.scad>
 
-// module fillet (r=1.0,steps=3,include=true) { children (); }
+module fillet (r=1.0,steps=3,include=true) { children (); }
 
 function mm (x) = length_mm (x);
 function centroid (a, b, c) = [
@@ -51,7 +51,8 @@ benq_ht2150st_screwholes = [
 
 screwholes = benq_ht2150st_screwholes;
 
-center = centroid (screwholes[0], screwholes[1], screwholes[2]);
+center_orig = centroid (screwholes[0], screwholes[1], screwholes[2]);
+center = [center_orig[0], center_orig[1] + 55.6, center_orig[2]];
 
 $fs = 0.5;
 $fa = 1;
