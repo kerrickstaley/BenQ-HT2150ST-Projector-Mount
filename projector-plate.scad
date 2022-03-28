@@ -185,6 +185,23 @@ module oval_intrusion_stiffener () {
     }
 }
 
+module protuberance () {
+    dxy = 8.5;
+    dz = 9.5;
+    size = 40;
+    eps = 0.001;
+    lower_right_corner = [82.9, 35 + 70.7, 0];
+    
+    translate(lower_right_corner)
+    hull() {
+        translate([-size, 0, -eps])
+        cube([size, size, eps]);
+        
+        translate([-size - dxy, dxy, dz])
+        cube([size, size, eps]);
+    }
+}
+
 // basic shape
 difference () {
     union () {
@@ -267,9 +284,7 @@ difference () {
     {
         screwpolyholes ();
         
-        translate([82.9, 35 + 70.7, 0])
-        translate([-40, 0, -20])
-        cube([40,40,40]);
+        protuberance ();
 
         translate([116.8, 35 - 32.2, -20]) {
             cylinder(r=8.7, h=40);
