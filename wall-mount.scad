@@ -81,12 +81,10 @@ module base() {
     cube([base_width, depth, thickness]);
 }
 
-union() {
-    fillet(r=fillet_r, steps=fillet_steps) {
-        left_support();
-        right_support();
-        base();
-        back();
-    }
-}
 
+fillet(r=fillet_r, steps=fillet_steps) {
+    left_support();
+    right_support();
+    base();
+    back();
+}
