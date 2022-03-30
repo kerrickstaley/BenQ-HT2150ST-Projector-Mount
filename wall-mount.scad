@@ -1,4 +1,5 @@
 use <fillet.scad>
+use <MCAD/shapes/polyhole.scad>
 
 base_width = 50;
 top_width = 100;
@@ -7,6 +8,19 @@ depth = 60;
 thickness = 5;
 fillet_steps = 8;
 fillet_r = 5;
+// wall screws are 3.5 mm diameter
+wall_hole_d = 4;
+// base screw is 5 mm diameter
+base_hole_d = 5.5;
+
+// positions are [x, z]
+wall_screwholes = [
+    [base_width / 2, height / 5],
+    [0, height * 4 / 5],
+    [base_width, height * 4 / 5],
+];
+
+base_hole_dist_from_wall = depth - base_width / 2;
 
 module clean_up_ugly_corners_face(offset) {
     polyhedron(
@@ -81,10 +95,24 @@ module base() {
     cube([base_width, depth, thickness]);
 }
 
+module screwholes() {
+    for (point = wall_screwholes) {
+        translate([point[0], 1, point[1]])
+        rotate([90, 0, 0])
+        mcad_polyhole(d=wall_hole_d, h=thickness + 2);
+    }
+    
+    translate([base_width / 2, -base_hole_dist_from_wall, -1])
+    mcad_polyhole(d=base_hole_d, h=thickness + 2);
+}
 
-fillet(r=fillet_r, steps=fillet_steps) {
-    left_support();
-    right_support();
-    base();
-    back();
+difference() {
+    fillet(r=fillet_r, steps=fillet_steps) {
+        left_support();
+        right_support();
+        base();
+        back();
+    }
+
+    screwholes();
 }
