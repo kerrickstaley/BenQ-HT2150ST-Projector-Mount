@@ -5,7 +5,8 @@ use <fillet.scad>
 use <arm.scad>
 use <sector.scad>
 
-module fillet (r=1.0,steps=3,include=true) { children (); }
+// uncomment to disable filleting to speed up render
+// module fillet (r=1.0,steps=3,include=true) { children (); }
 
 function mm (x) = length_mm (x);
 function centroid (a, b, c) = [
@@ -188,10 +189,12 @@ module oval_intrusion_stiffener () {
 }
 
 module protuberance () {
-    dxy = 8.5;
-    dz = 9.5;
+    eps = 0.01;
+    slope = 9.5 / 8.5;
+    // The value of dz that I measured is 9.5. However, this results in a "roof" overhanging the protuberance that is only 0.5 mm thick. There is no point in having this roof; it doesn't improve strength of the piece.
+    dz = 15;
+    dxy = dz / slope;
     size = 40;
-    eps = 0.001;
     lower_right_corner = [82.9, 35 + 70.7, 0];
     
     translate(lower_right_corner)
